@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Script para instalar el hook 'prepare-commit-msg' de Gemini en un repositorio Git.
+
+HOOK_SCRIPT_SRC="/home/d0s/.local/share/gemini-commit-hook/main.py"
+PROMPT_GUIDE_SRC="/home/d0s/.local/share/gemini-commit-hook/prompt_guide.md"
+
+function error_exit() {
+    echo "Error: $1" >&2
+    exit 1
+}
+
+git rev-parse --is-inside-work-tree > /dev/null 2>&1 || error_exit "No estás en un repositorio Git."
+
+if [ "$(git rev-parse --show-toplevel)" != "$(pwd)" ]; then
+    error_exit "Debes ejecutar este script en la raíz del repositorio Git."
+fi
+
+read -p "¿Deseas instalar el hook 'prepare-commit-msg' de Gemini en este repositorio? (s/N): " -n 1 -r
+echo
+
+if [[ $REPLY =~ ^[Ss]$ ]]; then
+    echo "Instalando hook de Gemini..."
+
+    mkdir -p .git/hooks || error_exit "No se pudo crear el directorio .git/hooks."
+
+    cp "$HOOK_SCRIPT_SRC" .git/hooks/prepare-commit-msg || error_exit "No se pudo copiar el script del hook."
+
+    chmod +x .git/hooks/prepare-commit-msg || error_exit "No se pudo hacer el script ejecutable."
+
+    echo "Hook 'prepare-commit-msg' de Gemini instalado exitosamente."
+    echo ""
+    echo "--- Recordatorios ---"
+    echo "1. Asegúrate de que tu clave API de Gemini esté configurada como variable de entorno (GEMINI_API_KEY)."
+    echo "2. El hook usará el entorno Python configurado durante la instalación global."
+    echo ""
+    echo "¡Ya puedes probarlo con 'git add .' y 'git commit'!"
+else
+    echo "Instalación del hook cancelada."
+fi

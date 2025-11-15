@@ -56,4 +56,26 @@ install_repo_hook
 ```
 
 Esto instalará el hook `prepare-commit-msg` específicamente para ese repositorio, permitiendo que Gemini genere tus mensajes de commit.
+
+## Uso
+
+1.  **Prepara tus cambios**: Añade los archivos que deseas incluir en tu commit:
+    ```bash
+    git add .
+    ```
+2.  **Inicia el commit**:
+    ```bash
+    git commit
+    ```
+    El hook se activará automáticamente, generará un mensaje de commit y lo pre-rellenará en tu editor. Revisa el mensaje, haz los ajustes necesarios y guarda para completar el commit.
+
+### Configuración de la Clave API de Gemini
+
+Es **esencial** configurar tu clave API de Gemini como una variable de entorno. Añade la siguiente línea a tu archivo de configuración de shell (por ejemplo, `~/.bashrc`, `~/.zshrc`, `~/.profile`):
+
+```bash
+export GEMINI_API_KEY="TU_CLAVE_API_AQUI"
+```
+
+Después de añadirla, recarga tu shell (`source ~/.bashrc` o similar) o abre una nueva terminal.
 ```

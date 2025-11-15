@@ -14,7 +14,7 @@ Cuando inicias un commit (`git commit`), este hook analiza automáticamente tus 
 
 *   **Generación Automática de Mensajes**: Ahorra tiempo y esfuerzo al obtener sugerencias de mensajes de commit inteligentes.
 *   **Adherencia a Conventional Commits**: Asegura que tus mensajes sigan un estándar, facilitando la lectura del historial y la automatización de tareas (como la generación de changelogs).
-*   **Fácil Instalación**: Opciones de instalación global (para usar en cualquier repositorio) y por repositorio.
+*   **Fácil Configuración**: Diseñado para una puesta en marcha sencilla y adaptable en tus proyectos Git.
 
 ## Requisitos
 
@@ -26,9 +26,11 @@ Para usar Gemini Commit Hook, necesitas:
 
 ## Instalación
 
-### Instalación Global (Recomendado)
+La instalación de Gemini Commit Hook se realiza en dos pasos: primero, una instalación global en tu sistema para hacer la herramienta disponible, y luego, la activación del hook en cada repositorio Git donde desees usarla.
 
-Esta opción instala la herramienta en tu sistema para que puedas usarla en cualquier repositorio.
+### 1. Instalación Global (Recomendado)
+
+Esta opción instala los componentes principales de la herramienta en tu sistema, haciendo que el comando `install_repo_hook` esté disponible globalmente.
 
 1.  **Clona este repositorio**:
     ```bash
@@ -39,47 +41,19 @@ Esta opción instala la herramienta en tu sistema para que puedas usarla en cual
     ```bash
     ./install.sh
     ```
-    Este script configurará un entorno Python virtual dedicado, instalará las dependencias y copiará los ejecutables necesarios a `~/.local/bin`.
+    Este script configurará un entorno Python virtual dedicado, instalará las dependencias y copiará el ejecutable `install_repo_hook` a `~/.local/bin`.
 
     **Nota**: Asegúrate de que `~/.local/bin` esté en la variable de entorno `PATH` de tu sistema.
 
-### Configuración de la Clave API de Gemini
+### 2. Instalación por Repositorio (Activación del Hook)
 
-Es **esencial** configurar tu clave API de Gemini como una variable de entorno. Añade la siguiente línea a tu archivo de configuración de shell (por ejemplo, `~/.bashrc`, `~/.zshrc`, `~/.profile`):
+Después de la instalación global, debes activar el hook en cada repositorio Git donde quieras usarlo.
+
+Navega a la raíz de tu repositorio Git (donde está la carpeta `.git/`) y ejecuta:
 
 ```bash
-export GEMINI_API_KEY="TU_CLAVE_API_AQUI"
+install_repo_hook
 ```
 
-Después de añadirla, recarga tu shell (`source ~/.bashrc` o similar) o abre una nueva terminal.
-
-## Uso
-
-1.  **Prepara tus cambios**: Añade los archivos que deseas incluir en tu commit:
-    ```bash
-    git add .
-    ```
-2.  **Inicia el commit**:
-    ```bash
-    git commit
-    ```
-    El hook se activará automáticamente, generará un mensaje de commit y lo pre-rellenará en tu editor. Revisa el mensaje, haz los ajustes necesarios y guarda para completar el commit.
-
----
-
-## Estructura del Proyecto
-
+Esto instalará el hook `prepare-commit-msg` específicamente para ese repositorio, permitiendo que Gemini genere tus mensajes de commit.
 ```
-.
-├── src/
-│   ├── gemini_hook/
-│   │   ├── __init__.py
-│   │   ├── main.py             # Lógica principal para generar mensajes de commit
-│   │   └── prompt_guide.md     # Guía de Conventional Commits para Gemini
-│   └── install_repo_hook       # Script para instalar el hook en un repositorio Git específico
-├── requirements.txt            # Dependencias de Python
-├── install.sh                  # Script de instalacion global
-├── README.md
-├── LICENSE
-└── .gitignore
-``````
